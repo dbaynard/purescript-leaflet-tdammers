@@ -1,19 +1,10 @@
 module Leaflet.Options
 where
 
-import Prelude ( Unit
-               , class Show
-               , show
-               , (<>)
-               , identity
-               , (<<<)
-               , ($)
-               )
-import Prelude as P
-import Data.Array as Array
+import Prelude
 import Data.Tuple (Tuple (..), fst, snd)
 import Data.Maybe (Maybe (..))
-import Leaflet.LatLng
+import Leaflet.LatLng (LatLng, LatLngBounds)
 
 foreign import data OptVal :: Type
 foreign import data Options :: Type
@@ -42,7 +33,7 @@ instance isOptValBoolean :: IsOptVal Boolean where
   toOptVal = optValBoolean
 
 instance isOptValArray :: IsOptVal a => IsOptVal (Array a) where
-  toOptVal = optValArray <<< P.map toOptVal
+  toOptVal = optValArray <<< map toOptVal
 
 instance isOptValTuple :: (IsOptVal a, IsOptVal b)
                        => IsOptVal (Tuple a b) where
@@ -74,4 +65,4 @@ mkOptions :: ∀ a. IsOption a
           => Array a
           -> Options
 mkOptions optlist =
-  mkOptionsJS fst snd $ P.map toOption optlist
+  mkOptionsJS fst snd $ map toOption optlist
