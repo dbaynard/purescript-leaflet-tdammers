@@ -5,9 +5,7 @@ import Prelude
 import Leaflet as L
 import Leaflet.TileLayer as TileLayer
 import Leaflet.Marker as Marker
-import Effect
-import Effect.Console (log)
-import Data.Traversable (for)
+import Effect (Effect)
 
 main :: Effect Unit
 main = do
