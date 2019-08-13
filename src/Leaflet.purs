@@ -4,8 +4,7 @@ module Leaflet
 where
 
 import Leaflet.Types
-  ( LEAFLET
-  , Pixels
+  ( Pixels
   , Point
   , Zoom
   ) as L

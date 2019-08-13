@@ -5,7 +5,7 @@ import Prelude ( Unit
                , class Show
                , show
                , (<>)
-               , id
+               , identity
                , (<<<)
                , ($)
                )

@@ -6,28 +6,3 @@ exports.markerJS =
             }
         }
     }
-
-exports.onMouseEventJS = function (eventName) {
-    return function (marker) {
-        return function (action) {
-            return function () {
-                var handler = function (ev) {
-                    action(mkMouseEvent(ev))()
-                }
-                marker.on(eventName, handler)
-                return handler
-            }
-        }
-    }
-}
-
-exports.offMouseEventJS = function (eventName) {
-    return function (marker) {
-        return function (handler) {
-            return function () {
-                marker.off(eventName, handler)
-                return null
-            }
-        }
-    }
-}

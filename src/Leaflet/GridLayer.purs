@@ -15,23 +15,9 @@ module Leaflet.GridLayer
 )
 where
 
-import Prelude ( Unit
-               , class Show
-               , show
-               , (<>)
-               , id
-               , (<<<)
-               , ($)
-               )
-import Prelude as P
-import Control.Monad.Eff
-import Data.Array as Array
-import Data.Tuple (Tuple (..), fst, snd)
-import Leaflet.Types
-import Leaflet.LatLng
-import Leaflet.Options
-import Data.Maybe (Maybe (..))
-import Leaflet.Layer (Layer)
+import Prelude
+import Leaflet.LatLng (LatLngBounds)
+import Leaflet.Options (class IsOption, mkOption, toOption)
 import Leaflet.Layer as Layer
 
 -- | Options to be passed to a tile layer at construction time. See

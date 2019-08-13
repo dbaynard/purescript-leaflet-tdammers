@@ -16,37 +16,24 @@ module Leaflet.Marker
 )
 where
 
-import Prelude ( Unit
-               , class Show
-               , show
-               , (<>)
-               , id
-               , (<<<)
-               , ($)
-               )
-import Prelude as P
-import Control.Monad.Eff
-import Data.Array as Array
-import Data.Tuple (Tuple (..), fst, snd)
-import Leaflet.Types
-import Leaflet.LatLng
-import Leaflet.Options
-import Data.Maybe (Maybe (..))
+import Prelude
+import Effect (Effect)
+import Leaflet.LatLng (LatLng)
+import Leaflet.Options (class IsOption, Options, mkOption, mkOptions, toOption)
 import Leaflet.Layer as Layer
-import Leaflet.Layer (Layer, class IsLayer)
+import Leaflet.Layer (class IsLayer)
 import Unsafe.Coerce (unsafeCoerce)
-import Leaflet.Evented
-import Leaflet.MouseInteraction
+import Leaflet.Evented (class Evented)
+import Leaflet.MouseInteraction (MouseEvent, MouseEventHandle, MouseEventType, offMouseEvent, onMouseEvent)
 
 foreign import data Marker :: Type
 
 instance isLayerMarker :: IsLayer Marker where
   toLayer = unsafeCoerce
 
-foreign import markerJS :: forall e
-                            . LatLng
-                           -> Options
-                           -> Eff (leaflet :: LEAFLET | e) Marker
+foreign import markerJS :: LatLng
+                        -> Options
+                        -> Effect Marker
 
 -- | Options to be passed to a marker layer at construction time. See
 -- | http://leafletjs.com/reference-1.0.3.html#marker for an explanation of
@@ -114,10 +101,9 @@ instance isOptionMarkerOption :: IsOption Option where
 -- | [marker](http://leafletjs.com/reference-1.0.3.html#marker) at the
 -- | specified geographic coordinates.
 -- |
-marker :: forall e
-          . LatLng
-         -> Array Option
-         -> Eff (leaflet :: LEAFLET | e) Marker
+marker :: LatLng
+       -> Array Option
+       -> Effect Marker
 marker position optionList = do
   let options = mkOptions optionList
   markerJS position options

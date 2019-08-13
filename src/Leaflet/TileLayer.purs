@@ -28,33 +28,20 @@ module Leaflet.TileLayer
 )
 where
 
-import Prelude ( Unit
-               , class Show
-               , show
-               , (<>)
-               , id
-               , (<<<)
-               , ($)
-               )
-import Prelude as P
-import Control.Monad.Eff
-import Data.Array as Array
-import Data.Tuple (Tuple (..), fst, snd)
-import Leaflet.Types
-import Leaflet.LatLng
-import Leaflet.Options
-import Data.Maybe (Maybe (..))
+import Prelude
+import Effect (Effect)
+import Leaflet.LatLng (LatLngBounds)
+import Leaflet.Options (class IsOption, Options, mkOption, mkOptions, toOption)
+import Data.Maybe (Maybe)
 import Leaflet.GridLayer as GridLayer
 import Leaflet.Layer (Layer)
-import Leaflet.Layer as Layer
 
 -- | A URL template for tile layers.
 type UrlTemplate = String
 
-foreign import tileLayerJS :: forall e
-                            . UrlTemplate
+foreign import tileLayerJS :: UrlTemplate
                            -> Options
-                           -> Eff (leaflet :: LEAFLET | e) Layer
+                           -> Effect Layer
 
 -- | Options to be passed to a tile layer at construction time. See
 -- | http://leafletjs.com/reference-1.0.3.html#tilelayer for an explanation of
@@ -172,10 +159,9 @@ instance isOptionTileLayerOption :: IsOption Option where
 -- | - `{s}`: subdomain
 -- |
 -- | Example: `"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"`
-tileLayer :: forall e
-          . UrlTemplate
-         -> Array Option
-         -> Eff (leaflet :: LEAFLET | e) Layer
+tileLayer :: UrlTemplate
+          -> Array Option
+          -> Effect Layer
 tileLayer url optionList = do
   let options = mkOptions optionList
   tileLayerJS url options
